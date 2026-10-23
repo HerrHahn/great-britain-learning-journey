@@ -2,6 +2,8 @@
   'use strict';
   const endpoint = 'https://11bg-writing-feedback.hahny0815.workers.dev/britain/suggestions';
   const draftKey = 'gb-suggestion-draft-v1';
+  let visitorId;
+  try { visitorId=localStorage.getItem('gb-suggestion-visitor'); if(!/^[a-f0-9-]{36}$/i.test(visitorId||'')){visitorId=crypto.randomUUID();localStorage.setItem('gb-suggestion-visitor',visitorId);} } catch {visitorId=crypto.randomUUID();}
   const launch = document.createElement('button');
   launch.className = 'suggestion-launch'; launch.type = 'button'; launch.textContent = '✎ Verbesserungsvorschlag';
   launch.setAttribute('aria-haspopup','dialog'); launch.setAttribute('aria-controls','suggestion-dialog');
@@ -13,12 +15,11 @@
     <p class="suggestion-context"></p>
     <label for="suggestion-text">Dein Verbesserungsvorschlag</label><textarea id="suggestion-text" rows="5" minlength="5" maxlength="2000" required placeholder="Zum Beispiel: Bei dieser Aufgabe fehlt mir …"></textarea>
     <small id="suggestion-count">0 / 2.000 Zeichen</small>
-    <label for="suggestion-code">Dein Übungscode</label><input id="suggestion-code" type="password" autocomplete="off" autocapitalize="characters" spellcheck="false" required maxlength="128" placeholder="Code für das KI-Feedback">
-    <p class="suggestion-privacy">Mit „Vorschlag senden“ übermittelst du den Text, die angezeigte Seite und den Zeitpunkt an die geschützte Sammlung deiner Lehrkraft bei Cloudflare. Bitte keine Namen oder persönlichen Daten eintragen. Dein Code wird nur zur Zugangsprüfung verwendet. Keine KI-Auswertung.</p>
+    <p class="suggestion-privacy">Mit „Vorschlag senden“ übermittelst du den Text, die angezeigte Seite und den Zeitpunkt an die geschützte Sammlung deiner Lehrkraft bei Cloudflare. Bitte keine Namen oder persönlichen Daten eintragen. Eine zufällige Browserkennung begrenzt Mehrfachsendungen. Keine KI-Auswertung.</p>
     <button type="submit" class="suggestion-send">Vorschlag senden</button><p class="suggestion-status" role="status" aria-live="polite"></p>
     <a class="suggestion-teacher" href="suggestions-teacher.html" target="_blank" rel="noopener">Für die Lehrkraft: Sammlung herunterladen ↗</a></form>`;
   document.body.append(launch,dialog);
-  const form = dialog.querySelector('form'), text = dialog.querySelector('textarea'), code = dialog.querySelector('input');
+  const form = dialog.querySelector('form'), text = dialog.querySelector('textarea');
   const status = dialog.querySelector('.suggestion-status'), send = dialog.querySelector('.suggestion-send');
   let context = '', attemptId = crypto.randomUUID(), busy = false;
   function pageLabel() {
@@ -44,20 +45,20 @@
     dialog.showModal(); text.focus();
   });
   dialog.querySelector('.suggestion-close').addEventListener('click',()=>dialog.close());
-  dialog.addEventListener('close',()=>{ if(!busy) code.value=''; launch.focus(); });
+  dialog.addEventListener('close',()=>{ launch.focus(); });
   text.addEventListener('input',()=>{attemptId=crypto.randomUUID();saveDraft();});
   form.addEventListener('submit',async event=>{
     event.preventDefault(); if(busy) return;
     if(text.value.trim().length<5) {status.textContent='Bitte mindestens fünf Zeichen schreiben.';text.focus();return;}
-    busy=true; send.disabled=true; text.readOnly=true; code.readOnly=true; status.textContent='Wird gesendet …'; saveDraft();
+    busy=true; send.disabled=true; text.readOnly=true; status.textContent='Wird gesendet …'; saveDraft();
     try {
-      const response=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+code.value.trim()},body:JSON.stringify({text:text.value,page:context,attemptId}),signal:AbortSignal.timeout(20000)});
+      const response=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:text.value,page:context,attemptId,visitorId}),signal:AbortSignal.timeout(20000)});
       const result=await response.json();
       if(!response.ok || result.saved!==true) throw Error(result.error || 'Der Vorschlag konnte nicht gespeichert werden.');
-      text.value=''; code.value='';attemptId=crypto.randomUUID();saveDraft();
+      text.value='';attemptId=crypto.randomUUID();saveDraft();
       status.textContent='Danke! Dein Vorschlag wurde in der Sammlung deiner Lehrkraft gespeichert.';
     } catch(error) { status.textContent=error.name==='TimeoutError'?'Noch keine Bestätigung. Bitte erneut senden; derselbe Vorschlag wird nicht doppelt gespeichert.':(error.message==='Failed to fetch'?'Keine Verbindung. Dein Entwurf bleibt erhalten. Bitte erneut versuchen.':error.message); }
-    finally {busy=false;send.disabled=false;text.readOnly=false;code.readOnly=false; if(!dialog.open)code.value='';}
+    finally {busy=false;send.disabled=false;text.readOnly=false;}
   });
   // The launcher remains reachable when the book reader is open in the top layer.
   const followDialogs=()=>{const active=[...document.querySelectorAll('dialog[open]')].filter(d=>d!==dialog).at(-1); const parent=active||document.body;if(launch.parentElement!==parent)parent.append(launch);};
