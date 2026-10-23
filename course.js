@@ -241,7 +241,7 @@ const COURSE = [
       {
         "tab": "Visual",
         "title": "Words and images of civilisation",
-        "text": "25 min. Study the cartoon in A4 on p. 19. Describe the visible action before explaining the irony. Compare the cartoon’s position with the essay’s portrayal of colonial authority.",
+        "text": "25 min. Study the cartoon shown below (A4, book p. 19). Describe the visible action before explaining the irony. Compare the cartoon’s position with the essay’s portrayal of colonial authority.",
         "fields": [
           [
             "cartoon",
@@ -250,7 +250,7 @@ const COURSE = [
             "long"
           ]
         ],
-        "html": "<details class=\"scaffold\"><summary>Need a scaffold?</summary><p>Keep the cartoon in your course book beside this page. Identify who speaks and who acts. Explain how the caption changes the meaning of the image.</p></details>"
+        "html": "<figure class=\"lesson-cartoon\"><a class=\"cartoon-image-link\" href=\"book-19.jpg\" target=\"_blank\" rel=\"noopener\" aria-label=\"Open the original cartoon page in full size\"><span class=\"cartoon-frame\"><img src=\"book-19.jpg\" alt=\"Cartoon: two men beside a Union Jack are fighting while three people holding spears watch. The caption contrasts their behaviour with their claim to detest violence.\" width=\"1191\" height=\"1684\"></span></a><figcaption>CartoonStock · reproduced in the course book, p. 19, A4. <a href=\"book-19.jpg\" target=\"_blank\" rel=\"noopener\">Open the original page at full size ↗</a></figcaption></figure><details class=\"scaffold\"><summary>Need a scaffold?</summary><p>Use the cartoon above. Identify who speaks and who acts. Explain how the caption changes the meaning of the image.</p></details>"
       },
       {
         "tab": "Evaluate",
