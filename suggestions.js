@@ -2,8 +2,6 @@
   'use strict';
   const endpoint = 'https://11bg-writing-feedback.hahny0815.workers.dev/britain/suggestions';
   const draftKey = 'gb-suggestion-draft-v1';
-  let visitorId;
-  try { visitorId=localStorage.getItem('gb-suggestion-visitor'); if(!/^[a-f0-9-]{36}$/i.test(visitorId||'')){visitorId=crypto.randomUUID();localStorage.setItem('gb-suggestion-visitor',visitorId);} } catch {visitorId=crypto.randomUUID();}
   const launch = document.createElement('button');
   launch.className = 'suggestion-launch'; launch.type = 'button'; launch.textContent = '✎ Verbesserungsvorschlag';
   launch.setAttribute('aria-haspopup','dialog'); launch.setAttribute('aria-controls','suggestion-dialog');
@@ -15,7 +13,7 @@
     <p class="suggestion-context"></p>
     <label for="suggestion-text">Dein Verbesserungsvorschlag</label><textarea id="suggestion-text" rows="5" minlength="5" maxlength="2000" required placeholder="Zum Beispiel: Bei dieser Aufgabe fehlt mir …"></textarea>
     <small id="suggestion-count">0 / 2.000 Zeichen</small>
-    <p class="suggestion-privacy">Mit „Vorschlag senden“ übermittelst du den Text, die angezeigte Seite und den Zeitpunkt an die geschützte Sammlung deiner Lehrkraft bei Cloudflare. Bitte keine Namen oder persönlichen Daten eintragen. Eine zufällige Browserkennung begrenzt Mehrfachsendungen. Keine KI-Auswertung.</p>
+    <p class="suggestion-privacy">Mit „Vorschlag senden“ übermittelst du den Text, die angezeigte Seite und den Zeitpunkt an die geschützte Sammlung deiner Lehrkraft bei Cloudflare. Bitte keine Namen oder persönlichen Daten eintragen. Keine KI-Auswertung.</p>
     <button type="submit" class="suggestion-send">Vorschlag senden</button><p class="suggestion-status" role="status" aria-live="polite"></p>
     <a class="suggestion-teacher" href="suggestions-teacher.html" target="_blank" rel="noopener">Für die Lehrkraft: Sammlung herunterladen ↗</a></form>`;
   document.body.append(launch,dialog);
@@ -52,7 +50,7 @@
     if(text.value.trim().length<5) {status.textContent='Bitte mindestens fünf Zeichen schreiben.';text.focus();return;}
     busy=true; send.disabled=true; text.readOnly=true; status.textContent='Wird gesendet …'; saveDraft();
     try {
-      const response=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:text.value,page:context,attemptId,visitorId}),signal:AbortSignal.timeout(20000)});
+      const response=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:text.value,page:context,attemptId}),signal:AbortSignal.timeout(20000)});
       const result=await response.json();
       if(!response.ok || result.saved!==true) throw Error(result.error || 'Der Vorschlag konnte nicht gespeichert werden.');
       text.value='';attemptId=crypto.randomUUID();saveDraft();
