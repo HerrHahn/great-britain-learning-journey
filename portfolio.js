@@ -15,7 +15,7 @@
     for(const c of course){
       const src=raw.chapters[c.id];if(src===undefined&&c.id==='fanatic-vocabulary')continue;if(!src||!src.answers||typeof src.answers!=='object'||Array.isArray(src.answers))throw new Error('Kapitel fehlt oder ist beschädigt: '+c.title);
       const dst=out.chapters[c.id],keys=c.stages.flatMap(s=>s.fields.map(f=>f[0]));
-      for(const key of Object.keys(src.answers)){if(!keys.includes(key))throw new Error('Unbekanntes Antwortfeld in '+c.title);dst.answers[key]=text(src.answers[key],key);}
+      for(const key of Object.keys(src.answers)){if(!keys.includes(key)&&!(c.id==='fanatic-vocabulary'&&['sentences','word-check','context-note'].includes(key)))throw new Error('Unbekanntes Antwortfeld in '+c.title);dst.answers[key]=text(src.answers[key],key);}
       dst.notes=text(src.notes,'Notizen');dst.feedback=text(src.feedback,'Feedback');
       if(!Array.isArray(src.checks)||src.checks.length!==3||src.checks.some(v=>typeof v!=='boolean'))throw new Error('Ungültige Checkliste.');
       dst.checks=[...src.checks];
@@ -31,6 +31,7 @@
           dst.quiz[id]={answers:[...q.answers],checked:q.checked};
         }
       }
+      if(c.id==='fanatic-vocabulary'&&src.finalQuiz!==undefined)dst.finalQuiz=VocabularyFinal.validate(src.finalQuiz);
       if(src.ai!==undefined){
         if(!src.ai||typeof src.ai!=='object'||Array.isArray(src.ai))throw new Error('Ungültige KI-Rückmeldung.');
         for(const [key,v] of Object.entries(src.ai)){if(!keys.includes(key)||!v)throw new Error('Unbekannte KI-Aufgabe.');dst.ai[key]={draft:text(v.draft,'KI-Entwurf',16000),feedback:text(v.feedback,'KI-Rückmeldung',20000),date:text(v.date,'Datum',100)};}
@@ -46,7 +47,7 @@
   function exportSections(work,course,scope){
     const selected=scope==='all'?course:course.filter(c=>c.id===scope);
     if(scope.startsWith('plenary:')){const c=course.find(x=>x.id===scope.slice(8));if(!c)throw new Error('Unbekanntes Kapitel.');const p=work.chapters[c.id].plenary;return [{title:c.title,meta:'Shared class record',blocks:[{label:'Agreed conclusions',text:p.claims},{label:'Evidence and references',text:p.evidence},{label:'Alternative readings and open questions',text:p.dissent},{label:'Our takeaway and next step',text:p.takeaway}]}];}
-    return selected.map(c=>({title:c.title,meta:`Lessons ${c.lessons} · ${c.product}`,blocks:[...c.stages.flatMap(s=>s.fields.map(f=>({label:f[1],text:work.chapters[c.id].answers[f[0]]||'—'}))),...Object.entries(work.chapters[c.id].quiz||{}).map(([id,q])=>{const spec=(READING_QUIZZES[c.id]||[]).find(x=>x.id===id);return {label:spec.title,text:q.checked?`${q.answers.filter((a,i)=>a===spec.items[i].answer).length} / ${spec.items.length} correct (practice)`:'Not checked yet'};}),...['claims','evidence','dissent','takeaway'].map((k,i)=>({label:['Shared conclusions','Shared evidence','Dissent / open questions','Class takeaway'][i],text:work.chapters[c.id].plenary?.[k]||'—'})),...Object.entries(work.chapters[c.id].ai||{}).map(([k,v])=>({label:'AI practice feedback · '+k,text:(v.draft!==work.chapters[c.id].answers[k]?'Earlier draft — text has since changed.\n':'')+v.feedback})),{label:'Pocket notes',text:work.chapters[c.id].notes||'—'},{label:'Self-check',text:c.stages[3].checks.map((t,i)=>`${work.chapters[c.id].checks[i]?'[x]':'[ ]'} ${t}`).join('\n')},{label:'Feedback',text:work.chapters[c.id].feedback||'—'}]}));
+    return selected.map(c=>({title:c.title,meta:`Lessons ${c.lessons} · ${c.product}`,blocks:[...c.stages.flatMap(s=>s.fields.map(f=>({label:f[1],text:work.chapters[c.id].answers[f[0]]||'—'}))),...Object.entries(work.chapters[c.id].quiz||{}).map(([id,q])=>{const spec=(READING_QUIZZES[c.id]||[]).find(x=>x.id===id);return {label:spec.title,text:q.checked?`${q.answers.filter((a,i)=>a===spec.items[i].answer).length} / ${spec.items.length} correct (practice)`:'Not checked yet'};}),...(c.id==='fanatic-vocabulary'&&work.chapters[c.id].finalQuiz?VocabularyFinal.exportBlocks(work.chapters[c.id].finalQuiz):[]),...['claims','evidence','dissent','takeaway'].map((k,i)=>({label:['Shared conclusions','Shared evidence','Dissent / open questions','Class takeaway'][i],text:work.chapters[c.id].plenary?.[k]||'—'})),...Object.entries(work.chapters[c.id].ai||{}).map(([k,v])=>({label:'AI practice feedback · '+k,text:(v.draft!==work.chapters[c.id].answers[k]?'Earlier draft — text has since changed.\n':'')+v.feedback})),{label:'Pocket notes',text:work.chapters[c.id].notes||'—'},{label:'Self-check',text:(c.stages[3].checks||[]).map((t,i)=>`${work.chapters[c.id].checks[i]?'[x]':'[ ]'} ${t}`).join('\n')},{label:'Feedback',text:work.chapters[c.id].feedback||'—'}]}));
   }
   function makePdf(jsPDF,work,course,scope,fontBase64){
     const doc=new jsPDF({unit:'mm',format:'a4',compress:true});
