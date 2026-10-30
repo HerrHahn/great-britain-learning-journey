@@ -13,7 +13,7 @@
     out.active=raw.active;out.step=raw.step;
     for(const id of Object.keys(raw.chapters))if(!course.some(c=>c.id===id))throw new Error('Unbekanntes Kapitel in der Datei.');
     for(const c of course){
-      const src=raw.chapters[c.id];if(!src||!src.answers||typeof src.answers!=='object'||Array.isArray(src.answers))throw new Error('Kapitel fehlt oder ist beschädigt: '+c.title);
+      const src=raw.chapters[c.id];if(src===undefined&&c.id==='fanatic-vocabulary')continue;if(!src||!src.answers||typeof src.answers!=='object'||Array.isArray(src.answers))throw new Error('Kapitel fehlt oder ist beschädigt: '+c.title);
       const dst=out.chapters[c.id],keys=c.stages.flatMap(s=>s.fields.map(f=>f[0]));
       for(const key of Object.keys(src.answers)){if(!keys.includes(key))throw new Error('Unbekanntes Antwortfeld in '+c.title);dst.answers[key]=text(src.answers[key],key);}
       dst.notes=text(src.notes,'Notizen');dst.feedback=text(src.feedback,'Feedback');
