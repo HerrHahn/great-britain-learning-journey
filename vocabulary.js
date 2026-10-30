@@ -484,11 +484,11 @@ const MSTF_WORDS = [
  const e=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  const pages=[...new Set(MSTF_WORDS.map(w=>w.page))];
  const bank=pages.map(page=>`<details class="reading-card vocabulary-bank"><summary><b>Page ${page}</b> · ${MSTF_WORDS.filter(w=>w.page===page).length} ${MSTF_WORDS.filter(w=>w.page===page).length===1?'annotation':'annotations'}</summary><dl>${MSTF_WORDS.filter(w=>w.page===page).map(w=>`<dt><b>${e(w.word)}</b> <small>p. ${w.page}, l. ${w.line}</small></dt><dd>${e(w.en)}<br><span lang="de">${e(w.de)}</span></dd>`).join('')}</dl><a href="book-${page}.jpg" target="_blank" rel="noopener">Check the original margin ↗</a></details>`).join('');
- const chapter={id,title:'Vocabulary lab · My Son the Fanatic',theme:'MY SON THE FANATIC · VOCABULARY',hours:1,lessons:'Revision',question:'Can you turn the margin annotations into precise language of your own?',product:'Vocabulary quizzes & short writing',intro:`Practise all ${MSTF_WORDS.length} margin annotations in manageable rounds before the exam workshop.`,source:'Margin annotations, printed book pp. 20–29. Meanings refer to the story; quiz sentences are newly written practice examples.',materials:[{label:'Original story and annotations · pp. 20–33',url:'kureishi-reading.pdf'}],toolkit:[['Context first','A familiar word can have a special meaning here: bear, ride, corruption.'],['Form matters','surreptitious → surreptitiously; halting → haltingly; inadvertent → inadvertently.'],['Use with care','Report a character’s judgement as that character’s judgement.']],phrases:'Parvez feels bewildered because… / Ali’s censure reveals… / The narrator presents…',teaching:'Zusätzliche Wiederholung vor dem Crashcourse: 10 Min. Wortschatz, 15 Min. ausgewählte Quizrunden, 10 Min. Kontext, 10 Min. Transfer. Alle Seitenrunden stehen für eigenständige Wiederholung bereit; keine zusätzliche Verschiebung des Klausurtermins.',stages:[
- {tab:'Explore',title:'From the margin to your vocabulary',text:`10 min. These ${MSTF_WORDS.length} entries come from the margins of pp. 20–29. Choose a page, recall each meaning before reading it, then collect three words you want to practise. The full bank stays available here.`,fields:[['targets','My three target words','Word | meaning in this story | page and line']],html:`<div class="reading-card"><h3>How to practise</h3><p>Explore → choose a page quiz → check words in context → use them in your own sentences. Complete more rounds whenever you need them. Quiz answers and your writing are saved with your portfolio.</p><p>For “infidel” and “jihad”, distinguish Ali’s language from neutral description. The contextual gloss is not a general definition of Islam. Some entries explain adult slang in the story.</p></div>${bank}`},
+ const chapter={id,title:'Vocabulary lab · My Son the Fanatic',theme:'MY SON THE FANATIC · VOCABULARY',hours:1,lessons:'Revision',question:'Can you turn the margin annotations into precise language of your own?',product:'Vocabulary practice & 30-word final quiz',intro:`Practise all ${MSTF_WORDS.length} margin annotations in manageable rounds before the exam workshop.`,source:'Margin annotations, printed book pp. 20–29. Meanings refer to the story; quiz sentences are newly written practice examples.',materials:[{label:'Original story and annotations · pp. 20–33',url:'kureishi-reading.pdf'}],toolkit:[['Context first','A familiar word can have a special meaning here: bear, ride, corruption.'],['Form matters','surreptitious → surreptitiously; halting → haltingly; inadvertent → inadvertently.'],['Use with care','Report a character’s judgement as that character’s judgement.']],phrases:'Parvez feels bewildered because… / Ali’s censure reveals… / The narrator presents…',teaching:'Zusätzliche Wiederholung vor dem Crashcourse: 10 Min. Wortschatz, 15 Min. ausgewählte Quizrunden, 10 Min. Kontext, Abschlussquiz mit 30 zufälligen Vokabeln. Alle Seitenrunden stehen für eigenständige Wiederholung bereit; keine zusätzliche Verschiebung des Klausurtermins.',stages:[
+ {tab:'Explore',title:'From the margin to your vocabulary',text:`10 min. These ${MSTF_WORDS.length} entries come from the margins of pp. 20–29. Choose a page, recall each meaning before reading it, then collect three words you want to practise. The full bank stays available here.`,fields:[['targets','My three target words','Word | meaning in this story | page and line']],html:`<div class="reading-card"><h3>How to practise</h3><p>Explore → choose a page quiz → check words in context → finish with a random 30-word quiz. Complete more rounds whenever you need them. Quiz answers and your writing are saved with your portfolio.</p><p>For “infidel” and “jihad”, distinguish Ali’s language from neutral description. The contextual gloss is not a general definition of Islam. Some entries explain adult slang in the story.</p></div>${bank}`},
  {tab:'Meanings',title:'Choose the meaning that fits',text:'15 min for selected rounds; continue independently. Each page is a separate round. Every margin entry is tested once. Open a round, answer all its questions, then check and retry. A closed round is not automatically completed.',fields:[],html:'<p class="source">The answer positions vary. Use the Explore tab or the original margin to review a word after checking.</p>'},
  {tab:'Context',title:'Use context, not just a translation',text:'10 min. Choose the word or explanation that fits each newly written example. Pay attention to word form, collocation and the particular meaning in this story.',fields:[],html:''},
- {tab:'Apply',title:'Make the vocabulary your own',text:'10 min. Write three accurate sentences about the story using at least four margin words in total. Then explain one contextual meaning. Underline the chosen words in your notebook or list them below.',fields:[['sentences','Three sentences about the story','1. Parvez…\n2. Ali…\n3. The narrator…'],['word-check','My vocabulary check','Chosen words | correct form | why the meaning fits'],['context-note','A meaning that depends on context','Explain why bear, ride, fastidious or corruption needs a contextual meaning here.']],checks:['I can explain my chosen words without simply copying a translation.','My word forms and meanings fit my sentences.','I distinguish characters’ judgements from my own analysis.'],html:'<details class="scaffold"><summary>Self-check and writing support</summary><p>Check meaning, grammar and evidence. For example: “Parvez is bewildered by Ali’s changed behaviour.” Here, bewildered describes his confusion; it does not prove that his suspicions are correct.</p></details><div class="reading-card"><h3>Optional writing extension · with AI feedback</h3><p>Use four of your target words in the existing 200–250-word comparison of Ali’s and Parvez’s attempts to persuade each other. The optional AI feedback remains in that writing task and requires your class code and consent. No vocabulary quiz answers are sent to AI.</p><button type="button" class="quiet" data-vocab-go="fanatic-language">Open comparison writing + optional AI feedback ↗</button></div>'}
+ {tab:'Final quiz',title:'Your vocabulary challenge',text:'Finish with 30 randomly selected vocabulary items. Each correct answer earns half a point: 15 points maximum. Your draw and answers stay saved until you start another round.',fields:[],html:'<div id="vocabulary-final"></div>'}
  ]};
  COURSE.splice(COURSE.findIndex(c=>c.id==='crashcourse'),0,chapter);
  const quizzes=pages.map(page=>({id:`vocab-page-${page}`,stage:1,title:`Margin vocabulary · page ${page}`,vocabulary:true,collapsible:true,items:MSTF_WORDS.filter(w=>w.page===page).map(w=>{
@@ -514,4 +514,318 @@ const MSTF_WORDS = [
  READING_QUIZZES[id]=quizzes;
  PLENARY[id]={title:'Our vocabulary toolkit',focus:'Difficult words | contextual meanings | accurate example sentences',pitfall:'Do not replace analysis with loaded labels: infidel is a character’s term, not a neutral judgement.',variants:[{name:'Word experts',minutes:'5 min',steps:'Pairs explain one difficult word without translating it. The class supplies a story example and checks the original margin.'},{name:'Repair the sentence',minutes:'5 min',steps:'Collect three volunteer example sentences. Check meaning and word form together, then record a corrected version with a page reference.'},{name:'Exit-ticket collection',minutes:'5 min',steps:'Each learner shares one word, one English definition and one original sentence. Agree on five useful examples and one contextual warning.'}]};
  document.addEventListener('click',event=>{const button=event.target.closest?.('[data-vocab-go]');if(button){openChapter(button.dataset.vocabGo);work.step=3;save();render();}});
+})();
+
+const MSTF_FINAL_GAPS = [
+  {
+    "answer": "surreptitious",
+    "gap": "She took a ___ look at the letter, hoping nobody would notice."
+  },
+  {
+    "answer": "bewilder",
+    "gap": "The contradictory clues could ___ even an experienced detective."
+  },
+  {
+    "answer": "tangle",
+    "gap": "The cables lay in a confused ___ on the floor."
+  },
+  {
+    "answer": "elicit",
+    "gap": "The interviewer hoped to ___ an honest response."
+  },
+  {
+    "answer": "pitfall",
+    "gap": "One common ___ in an essay is to retell the plot instead of analysing it."
+  },
+  {
+    "answer": "accountant",
+    "gap": "An ___ checks a company's financial records."
+  },
+  {
+    "answer": "bear",
+    "gap": "Old walls may ___ visible marks of earlier damage."
+  },
+  {
+    "answer": "imperative",
+    "gap": "With the deadline approaching, it was ___ to act immediately."
+  },
+  {
+    "answer": "Punjabi",
+    "gap": "A person from the Punjab region may be called a ___."
+  },
+  {
+    "answer": "lewd",
+    "gap": "The passengers made ___ jokes containing offensive sexual remarks."
+  },
+  {
+    "answer": "balti house",
+    "gap": "They went to a ___, a restaurant specialising in balti-style curries."
+  },
+  {
+    "answer": "busted",
+    "gap": "The old radio was ___ and would no longer work."
+  },
+  {
+    "answer": "pour out your account",
+    "gap": "If you tell your whole story at length, you ___ of what happened."
+  },
+  {
+    "answer": "watch somebody scrupulously",
+    "gap": "To observe a person with great care and attention is to ___."
+  },
+  {
+    "answer": "severe",
+    "gap": "The strict teacher gave the class a ___ warning."
+  },
+  {
+    "answer": "liaison",
+    "gap": "The two adults were having a secret sexual ___."
+  },
+  {
+    "answer": "ferry",
+    "gap": "Taxi drivers ___ passengers from place to place."
+  },
+  {
+    "answer": "ride",
+    "gap": "The taxi dialogue plays on the word ___: a journey and, in slang, sexual intercourse."
+  },
+  {
+    "answer": "dilated",
+    "gap": "The pupils of his eyes were ___, wider than usual."
+  },
+  {
+    "answer": "be liable to",
+    "gap": "People with this condition may ___ sudden headaches."
+  },
+  {
+    "answer": "vigil",
+    "gap": "The family kept a ___, staying awake beside the patient all night."
+  },
+  {
+    "answer": "syringe",
+    "gap": "The nurse used a ___ to give the injection."
+  },
+  {
+    "answer": "flinch",
+    "gap": "She refused to ___ from the difficult task."
+  },
+  {
+    "answer": "sullen",
+    "gap": "He remained ___, silently angry and unwilling to talk."
+  },
+  {
+    "answer": "mutter",
+    "gap": "Speak clearly; do not ___ under your breath."
+  },
+  {
+    "answer": "maulvi",
+    "gap": "The boy sought religious instruction from a ___, an Islamic teacher."
+  },
+  {
+    "answer": "indignity",
+    "gap": "Being publicly humiliated was an ___ he found hard to forget."
+  },
+  {
+    "answer": "rove",
+    "gap": "His eyes began to ___ over the stranger, moving from one feature to another."
+  },
+  {
+    "answer": "inquisitive",
+    "gap": "The ___ neighbour kept asking personal questions."
+  },
+  {
+    "answer": "devotion",
+    "gap": "Her daily prayers showed her religious ___."
+  },
+  {
+    "answer": "mac",
+    "gap": "It looked like rain, so he put on his ___, a raincoat."
+  },
+  {
+    "answer": "unimpeded",
+    "gap": "With the road clear, traffic could pass ___."
+  },
+  {
+    "answer": "imminent",
+    "gap": "The dark clouds suggested that a storm was ___."
+  },
+  {
+    "answer": "crunch",
+    "gap": "You can hear people ___ when they chew very crisp food."
+  },
+  {
+    "answer": "poppadum / poppadom",
+    "gap": "She served a thin, crisp ___ alongside the curry."
+  },
+  {
+    "answer": "castigate",
+    "gap": "The critic began to ___ the officials, reprimanding them severely."
+  },
+  {
+    "answer": "insolent",
+    "gap": "The pupil's rude, disrespectful reply was ___."
+  },
+  {
+    "answer": "fastidious",
+    "gap": "His ___ expression suggested critical distaste for what was offered."
+  },
+  {
+    "answer": "censure",
+    "gap": "The committee expressed strong ___ of his dishonest behaviour."
+  },
+  {
+    "answer": "wicked",
+    "gap": "In the tale, the villain's actions are described as morally ___."
+  },
+  {
+    "answer": "relish",
+    "gap": "I ___ the chance to read quietly; it gives me great pleasure."
+  },
+  {
+    "answer": "smother",
+    "gap": "To cover the chips completely, ___ them in sauce."
+  },
+  {
+    "answer": "implicated",
+    "gap": "Several officials were ___ in the scandal."
+  },
+  {
+    "answer": "burp",
+    "gap": "Drinking fizzy drinks quickly can make you ___."
+  },
+  {
+    "answer": "choke",
+    "gap": "A piece of food blocking your throat can make you ___."
+  },
+  {
+    "answer": "quell",
+    "gap": "The speaker tried to ___ the unrest and restore calm."
+  },
+  {
+    "answer": "infidel",
+    "gap": "The speaker used the disapproving religious label ___ for an outsider."
+  },
+  {
+    "answer": "rout",
+    "gap": "The stronger army hoped to ___ its opponents, defeating them completely."
+  },
+  {
+    "answer": "hypocrite",
+    "gap": "A person who preaches honesty but repeatedly lies is a ___."
+  },
+  {
+    "answer": "adulterer",
+    "gap": "A married person who has sex with someone other than their spouse is an ___."
+  },
+  {
+    "answer": "jihad",
+    "gap": "In Ali's speech, ___ refers to religious war; the word has broader meanings outside this passage."
+  },
+  {
+    "answer": "mend",
+    "gap": "He promised to ___ his ways and behave better."
+  },
+  {
+    "answer": "usher",
+    "gap": "The attendant will ___ the visitors towards the exit."
+  },
+  {
+    "answer": "dislodge",
+    "gap": "A strong gust could ___ the tile from its position."
+  },
+  {
+    "answer": "usury",
+    "gap": "Lending money at excessively high interest is called ___."
+  },
+  {
+    "answer": "corruption",
+    "gap": "Here, the accusation concerns moral ___ rather than a damaged computer file."
+  },
+  {
+    "answer": "superstitious",
+    "gap": "Believing that a broken mirror brings bad luck is ___."
+  },
+  {
+    "answer": "reproach",
+    "gap": "His voice carried a note of ___, expressing blame and disappointment."
+  },
+  {
+    "answer": "venture",
+    "gap": "Although nervous, she decided to ___ an opinion."
+  },
+  {
+    "answer": "grovel",
+    "gap": "You can apologise sincerely without having to ___ for approval."
+  },
+  {
+    "answer": "halting",
+    "gap": "His speech was ___, full of pauses and hesitation."
+  },
+  {
+    "answer": "hearten",
+    "gap": "A message of support can ___ someone who feels discouraged."
+  },
+  {
+    "answer": "pit",
+    "gap": "They dug a deep ___ in the ground."
+  },
+  {
+    "answer": "gaudy",
+    "gap": "The room's clashing bright colours made it look ___."
+  },
+  {
+    "answer": "inadvertent",
+    "gap": "The mistake was ___; nobody had intended to make it."
+  },
+  {
+    "answer": "pace",
+    "gap": "An anxious person may ___ back and forth across a room."
+  },
+  {
+    "answer": "pant",
+    "gap": "After running uphill, you may ___ and struggle to catch your breath."
+  },
+  {
+    "answer": "retaliate",
+    "gap": "Instead of deciding to ___ after the attack, she chose not to hit back."
+  }
+];
+
+/* Local-only random vocabulary assessment. Persist the draw, not just the score. */
+const VocabularyFinal=(()=>{
+ const id='fanatic-vocabulary';
+ const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+ const normal=s=>String(s).normalize('NFKC').toLowerCase().trim().replace(/\s+/g,' ').replace(/[.!?]+$/,'').trim();
+ function shuffle(xs){const a=[...xs];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+ function create(){return {version:1,items:shuffle(MSTF_WORDS.map((_,i)=>i)).slice(0,30).map((word,i)=>({word,type:['mc','text','gap'][i%3],options:i%3===0?shuffle([word,...shuffle(MSTF_WORDS.map((_,j)=>j).filter(j=>j!==word)).slice(0,3)]):[]})),answers:Array(30).fill(''),checked:false};}
+ function validate(q){
+  const fail=()=>{throw new Error('Ungültiges Vokabel-Abschlussquiz.');};
+  if(!q||q.version!==1||typeof q.checked!=='boolean'||!Array.isArray(q.items)||q.items.length!==30||!Array.isArray(q.answers)||q.answers.length!==30)fail();
+  const seen=new Set();
+  const items=q.items.map((x,i)=>{if(!x||!Number.isInteger(x.word)||x.word<0||x.word>=MSTF_WORDS.length||seen.has(x.word)||x.type!==['mc','text','gap'][i%3]||!Array.isArray(x.options))fail();seen.add(x.word);
+   if(x.type==='mc'?(x.options.length!==4||new Set(x.options).size!==4||!x.options.includes(x.word)||x.options.some(v=>!Number.isInteger(v)||v<0||v>=MSTF_WORDS.length)):x.options.length!==0)fail();
+   const a=q.answers[i];if(typeof a!=='string'||a.length>200||(x.type==='mc'&&a!==''&&!x.options.some(v=>String(v)===a)))fail();
+   return {word:x.word,type:x.type,options:[...x.options]};
+  });return {version:1,items,answers:[...q.answers],checked:q.checked};
+ }
+ function accepted(item){const row=MSTF_FINAL_GAPS[item.word];const answers=row.answer.split(' / ');if(item.type==='text'){const word=MSTF_WORDS[item.word].word;answers.push(word,word.replace(/\([^)]*\)/g,'').replace(/somebody\/something|somebody|something/g,''));}return answers;}
+ function correct(q,i){const item=q.items[i],a=q.answers[i];return item.type==='mc'?a!==''&&a===String(item.word):accepted(item).some(v=>normal(v)===normal(a));}
+ function score(q){return q.items.reduce((n,_,i)=>n+(correct(q,i)?0.5:0),0);}
+ function report(q){return `${score(q).toLocaleString('de-DE')} / 15 Punkte · ${score(q)*2} / 30 richtig`;}
+ function exportBlocks(q){return [{label:'Final vocabulary quiz · 30 random words',text:q.checked?report(q):'Noch nicht ausgewertet'},...q.items.map((x,i)=>({label:`${i+1}. ${MSTF_WORDS[x.word].word} · ${x.type}`,text:`Answer: ${x.type==='mc'?(q.answers[i]===''?'—':MSTF_WORDS[Number(q.answers[i])].en):q.answers[i]||'—'}${q.checked?'\n'+(correct(q,i)?'0.5 / 0.5':'0 / 0.5')+' · Solution: '+(x.type==='mc'?MSTF_WORDS[x.word].en:MSTF_FINAL_GAPS[x.word].answer):''}`}))];}
+ function mount(){const data=work.chapters[id];if(!data.finalQuiz){data.finalQuiz=create();save();}
+  const host=document.querySelector('#vocabulary-final');if(!host)return;
+  function draw(){const q=data.finalQuiz;
+   host.innerHTML=`<section class="reading-quiz" aria-labelledby="vocabulary-final-title"><h3 id="vocabulary-final-title">30 words · 15 points</h3><p>10 multiple choice questions, 10 typed answers and 10 gap sentences. Use the vocabulary from the margins. For typed answers, give the headword or phrase (without “somebody/something”); for gaps, give only the missing word or phrase. Capitalisation, extra spaces and final punctuation do not affect your score. Spelling counts.</p><p>Each correct answer earns 0.5 points. Empty or incorrect answers earn 0 points. After marking, use “Try the same words again” or start a new random round.</p><p class="quiz-status" role="status" tabindex="-1" id="vocabulary-final-result">${q.checked?'<strong>'+report(q)+'</strong> · Übungsergebnis, keine Schulnote.':'Your current round is saved with your portfolio.'}</p>${q.items.map((x,i)=>{
+    const w=MSTF_WORDS[x.word],g=MSTF_FINAL_GAPS[x.word],prompt=x.type==='mc'?`What does “${w.word}” mean in this story?`:x.type==='text'?`Give the English margin word: ${w.de} (${g.answer[0]}…).`:`Complete the sentence: ${g.gap}`;
+    return `<fieldset><legend>${i+1}. ${esc(prompt)} <small>· ${x.type==='mc'?'Multiple choice':x.type==='text'?'Type the word':'Gap sentence'} · 0.5 points</small></legend>${x.type==='mc'?x.options.map(j=>`<label class="quiz-option"><input type="radio" name="final-${i}" data-final-answer="${i}" value="${j}" ${q.answers[i]===String(j)?'checked':''} ${q.checked?'disabled':''}>${esc(MSTF_WORDS[j].en)}</label>`).join(''):`${x.type==='gap'?`<p class="source">Meaning: ${esc(w.en)}</p>`:''}<label for="final-answer-${i}">Your answer</label><input type="text" id="final-answer-${i}" data-final-answer="${i}" maxlength="200" autocomplete="off" autocapitalize="none" spellcheck="false" value="${esc(q.answers[i])}" ${q.checked?'readonly':''} style="width:100%;box-sizing:border-box;min-height:48px;font:inherit;padding:12px;border:1px solid #9ebdcc;border-radius:10px">`}${q.checked?`<p class="quiz-explanation ${correct(q,i)?'correct':'retry'}"><b>${correct(q,i)?'Correct · 0.5 points':'0 points'}</b> · Answer: ${esc(x.type==='mc'?w.en:g.answer)}<br>${esc(w.word)} — ${esc(w.de)} · p. ${w.page}, l. ${w.line}</p>`:''}</fieldset>`;
+   }).join('')}<div class="actions">${q.checked?'<button class="primary" data-final-retry>Try the same words again</button>':'<button class="primary" data-final-mark>Finish & show points</button>'}<button class="quiet" data-final-new>New random round · replace this round</button></div></section>`;
+   host.querySelectorAll('[data-final-answer]').forEach(input=>input.addEventListener(input.type==='radio'?'change':'input',()=>{if(q.checked)return;q.answers[+input.dataset.finalAnswer]=input.value;save();}));
+   function focusResult(){const status=host.querySelector('#vocabulary-final-result');status.focus();status.scrollIntoView({behavior:'smooth',block:'center'});}
+   host.querySelector('[data-final-mark]')?.addEventListener('click',()=>{q.checked=true;save();draw();focusResult();});
+   host.querySelector('[data-final-retry]')?.addEventListener('click',()=>{q.answers=Array(30).fill('');q.checked=false;save();draw();focusResult();});
+   host.querySelector('[data-final-new]').onclick=()=>{data.finalQuiz=create();save();draw();focusResult();};
+  }draw();
+ }
+ return {create,validate,correct,score,exportBlocks,mount};
 })();
