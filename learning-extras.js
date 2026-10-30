@@ -13,6 +13,7 @@ const LearningExtras=(()=>{
   const content=document.querySelector('#content'),actions=content.querySelector(':scope > .actions');
   const qs=(READING_QUIZZES[c.id]||[]).filter(q=>q.stage===step);
   for(const q of qs){actions.insertAdjacentHTML('beforebegin',q.collapsible?`<details class="reading-card"><summary>${esc(q.title)} · ${q.items.length} ${q.items.length===1?'word':'words'}</summary>${quizMarkup(c,q)}</details>`:quizMarkup(c,q));bindQuiz(content.querySelector(`[data-quiz="${q.id}"]`),c,q);}
+  if(c.id==='fanatic-vocabulary'){if(step===3){content.querySelector('.answers-review')?.remove();VocabularyFinal.mount();}return;}
   if(step===3){actions.insertAdjacentHTML('beforebegin',`<section class="plenary-card"><span class="eyebrow">CHAPTER WRAP-UP · TOGETHER</span><h3>${esc(PLENARY[c.id].title)}</h3><p>${esc(PLENARY[c.id].focus)}</p><p>Bring your strongest finding and one piece of evidence. Compare, qualify and record what the class can agree on.</p><button class="primary" id="open-plenary">Plenumssicherung öffnen →</button><p class="source">Drei Methoden zur Auswahl · gemeinsames Protokoll · separater Export</p></section>`);document.querySelector('#open-plenary').onclick=()=>openPlenary(c.id);}
   const shortcut=document.createElement('button');shortcut.className='quiet plenary-shortcut';shortcut.textContent='Gemeinsame Sicherung ↗';shortcut.onclick=()=>openPlenary(c.id);document.querySelector('#companion').append(shortcut);
   for(const f of c.stages[step].fields.filter(f=>f[3]==='long'))mountAI(c,f);
